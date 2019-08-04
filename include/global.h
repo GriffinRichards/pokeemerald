@@ -757,7 +757,7 @@ struct LilycoveLadyQuiz
 struct LilycoveLadyFavor
 {
     /*0x000*/ u8 id;
-    /*0x001*/ bool8 givenPokeblock;
+    /*0x001*/ u8 phase;
     /*0x002*/ u8 unk_002;
     /*0x003*/ u8 unk_003;
     /*0x004*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
@@ -770,7 +770,7 @@ struct LilycoveLadyFavor
 struct LilycoveLadyContest
 {
     /*0x000*/ u8 id;
-    /*0x001*/ u8 phase;
+    /*0x001*/ bool8 givenPokeblock;
     /*0x002*/ u8 fave_pkblk;
     /*0x003*/ u8 other_pkblk;
     /*0x004*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
