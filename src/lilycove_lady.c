@@ -493,11 +493,11 @@ static const u8 *const sContestLadyMonNames[] =
 
 static const u8 *const sContestLadyCategoryNames[] =
 {
-    gText_Coolness,
-    gText_Beauty,
-    gText_Cuteness,
-    gText_Smartness,
-    gText_Toughness
+    gText_Coolness2,
+    gText_Beauty2,
+    gText_Cuteness2,
+    gText_Smartness2,
+    gText_Toughness2
 };
 
 static const u8 *const sContestNames[] =
