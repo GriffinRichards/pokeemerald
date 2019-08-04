@@ -23,6 +23,10 @@
 #include "constants/species.h"
 #include "constants/moves.h"
 
+// TODO use array count macro?
+#define QUIZ_QUESTION_LEN 9
+#define QUIZ_QUESTION_NUM 16
+
 enum
 {
     QUIZ_AUTHOR_LADY,
@@ -334,9 +338,6 @@ static const u16 sQuizLadyPrizes[] =
     ITEM_RARE_CANDY,
     ITEM_PREMIER_BALL
 };
-
-#define QUIZ_QUESTION_LEN 9
-#define QUIZ_QUESTION_NUM 16
 
 // Favor Lady data
 static const u8 *const sFavorLadyDescriptions[] =
