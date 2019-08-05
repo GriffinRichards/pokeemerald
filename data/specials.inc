@@ -375,13 +375,13 @@ gSpecials:: @ 81DBA64
 	def_special SetLilycoveLadyGfx
 	def_special Script_GetLilycoveLadyId
 	def_special GetFavorLadyState
-	def_special BufferFavorLadyDescription
-	def_special sub_818DC60
+	def_special BufferFavorLadyRequest
+	def_special HasAnotherPlayerGivenFavorLadyItem
 	def_special BufferFavorLadyItemName
 	def_special BufferFavorLadyPlayerName
 	def_special DidFavorLadyLikeItem
 	def_special FavorLadyOpenBagMenu
-	def_special Script_ShowFavorLadyItem
+	def_special Script_DoesFavorLadyLikeItem
 	def_special DidFavorLadyLoveItem
 	def_special FavorLadyGetPrize
 	def_special SetFavorLadyState_Complete
@@ -408,7 +408,7 @@ gSpecials:: @ 81DBA64
 	def_special sub_818E3EC
 	def_special sub_818E8E0
 	def_special sub_818E8B4
-	def_special sub_818E914
+	def_special Script_BufferContestLadyCategoryAndMonName
 	def_special OpenPokeblockCaseForContestLady
 	def_special ContestLadyGivenPokeblock
 	def_special GetContestLadyMonSpecies
