@@ -17,42 +17,16 @@
 #include "contest.h"
 #include "berry.h"
 #include "strings.h"
-
-// TODO use array count macro?    
-#define QUIZ_QUESTION_LEN 9       //len of sQuizLadyQuestion#
-#define NUM_QUIZ_QUESTIONS 16      //len of sQuizLadyQuizQuestions
-#define FAVOR_DESCRIPTION_NUM 6   //len of sFavorLadyDescriptions
-
-// TODO not a great name? The number of successes required to receive 
-// an item from the favor lady. Reached automatically if the randomly
-// selected 'best' item is given to her
-#define FAVOR_GIFT_MAX 5  
-
-
-enum
-{
-    QUIZ_AUTHOR_LADY,
-    QUIZ_AUTHOR_PLAYER,
-    QUIZ_AUTHOR_OTHER_PLAYER
-};
-
-enum
-{
-    LILYCOVE_LADY_STATE_READY,
-    LILYCOVE_LADY_STATE_COMPLETED,  
-    LILYCOVE_LADY_STATE_PRIZE      
-};
-
-
+#include "constants/lilycove_lady.h"
 #include "data/lilycove_lady.h"
 
 static void InitLilycoveQuizLady(void);
 static void InitLilycoveFavorLady(void);
 static void InitLilycoveContestLady(void);
-static void ReadyQuizLady(void);
-static void ReadyFavorLady(void);
-static void ReadyContestLady(void);
-static u8 BufferAuthorName(void);
+static void ResetQuizLadyForRecordMix(void);
+static void ResetFavorLadyForRecordMix(void);
+static void ResetContestLadyForRecordMix(void);
+static u8 BufferQuizAuthorName(void);
 static bool8 IsQuizTrainerIdNotPlayer(void);
 static u8 GetPlayerNameLength(const u8 *);
 
@@ -105,19 +79,18 @@ void InitLilycoveLady(void)
     }
 }
 
-// Used after mixing records
-void ReadyLilycoveLady(void)
+void ResetLilycoveLadyForRecordMix(void)
 {
     switch (GetLilycoveLadyId())
     {
         case LILYCOVE_LADY_QUIZ:
-            ReadyQuizLady();
+            ResetQuizLadyForRecordMix();
             break;
         case LILYCOVE_LADY_FAVOR:
-            ReadyFavorLady();
+            ResetFavorLadyForRecordMix();
             break;
         case LILYCOVE_LADY_CONTEST:
-            ReadyContestLady();
+            ResetContestLadyForRecordMix();
             break;
     }
 }
@@ -179,7 +152,7 @@ static void InitLilycoveFavorLady(void)
     FavorLadyPickFavorAndBestItem();
 }
 
-static void ReadyFavorLady(void)
+static void ResetFavorLadyForRecordMix(void)
 {
     sFavorLadyPtr = &gSaveBlock1Ptr->lilycoveLady.favor;
     sFavorLadyPtr->id = LILYCOVE_LADY_FAVOR;
@@ -203,18 +176,18 @@ u8 GetFavorLadyState(void)
     }
 }
 
-static const u8 *GetFavorLadyDescription(u8 idx)
+static const u8 *GetFavorLadyRequest(u8 idx)
 {
-    return sFavorLadyDescriptions[idx];
+    return sFavorLadyRequests[idx];
 }
 
-void BufferFavorLadyDescription(void)
+void BufferFavorLadyRequest(void)
 {
     sFavorLadyPtr = &gSaveBlock1Ptr->lilycoveLady.favor;
-    StringCopy(gStringVar1, GetFavorLadyDescription(sFavorLadyPtr->favorId));
+    StringCopy(gStringVar1, GetFavorLadyRequest(sFavorLadyPtr->favorId));
 }
 
-bool8 sub_818DC60(void)
+bool8 HasAnotherPlayerGivenFavorLadyItem(void)
 {
     sFavorLadyPtr = &gSaveBlock1Ptr->lilycoveLady.favor;
     if (sFavorLadyPtr->playerName[0] != EOS)
@@ -250,6 +223,7 @@ void BufferFavorLadyPlayerName(void)
     ConvertInternationalString(gStringVar3, sFavorLadyPtr->language);
 }
 
+// Only used to determine if a record-mixed player gave her an item she liked
 bool8 DidFavorLadyLikeItem(void)
 {
     sFavorLadyPtr = &gSaveBlock1Ptr->lilycoveLady.favor;
@@ -261,8 +235,7 @@ void FavorLadyOpenBagMenu(void)
     sub_81AAC50();
 }
 
-//TODO rename?
-static bool8 ShowFavorLadyItem(u16 itemId)
+static bool8 DoesFavorLadyLikeItem(u16 itemId)
 {
     u8 numItems;
     u8 i;
@@ -294,12 +267,12 @@ static bool8 ShowFavorLadyItem(u16 itemId)
     return likedItem;
 }
 
-bool8 Script_ShowFavorLadyItem(void)
+bool8 Script_DoesFavorLadyLikeItem(void)
 {
-    return ShowFavorLadyItem(gSpecialVar_ItemId);
+    return DoesFavorLadyLikeItem(gSpecialVar_ItemId);
 }
 
-//was item given the best item / have they given her 5 items
+// Was item given the randomly selected best item / has she been given 5 items
 bool8 DidFavorLadyLoveItem(void)
 {
     u8 checkval;
@@ -336,7 +309,7 @@ void sub_818DEF4(void)
     EnableBothScriptContexts();
 }
 
-static void PickQuizQuestion(void)
+static void QuizLadyPickQuestion(void)
 {
     u8 questionId;
     u8 i;
@@ -373,10 +346,10 @@ static void InitLilycoveQuizLady(void)
     sQuizLadyPtr->waitingForChallenger = FALSE;
     sQuizLadyPtr->prevQuestionId = NUM_QUIZ_QUESTIONS;
     sQuizLadyPtr->language = gGameLanguage;
-    PickQuizQuestion();
+    QuizLadyPickQuestion();
 }
 
-static void ReadyQuizLady(void)
+static void ResetQuizLadyForRecordMix(void)
 {
     sQuizLadyPtr = &gSaveBlock1Ptr->lilycoveLady.quiz;
     sQuizLadyPtr->id = LILYCOVE_LADY_QUIZ;
@@ -402,15 +375,11 @@ u8 GetQuizLadyState(void)
     }
 }
 
-// TODO enum? another enum might be excessive. why did GF swap the order from AUTHOR
-// 0: waiting for someone to attempt player's quiz
-// 1: ready to attempt other player's quiz
-// 2: ready to attempt lady's quiz
 u8 GetQuizAuthor(void)
 {
     int i;
     int j;
-    u8 author;
+    u8 authorNameId;
     struct LilycoveLadyQuiz *quiz;
 
     quiz = &gSaveBlock1Ptr->lilycoveLady.quiz;
@@ -433,33 +402,33 @@ u8 GetQuizAuthor(void)
         quiz->questionId = i;
         quiz->playerName[0] = EOS;
     }
-    author = BufferAuthorName();
-    if (author == QUIZ_AUTHOR_LADY)
+    authorNameId = BufferQuizAuthorName();
+    if (authorNameId == QUIZ_AUTHOR_NAME_LADY)
     {
-        return 2;
+        return QUIZ_AUTHOR_LADY;
     }
-    else if (author == QUIZ_AUTHOR_OTHER_PLAYER || IsQuizTrainerIdNotPlayer())
+    else if (authorNameId == QUIZ_AUTHOR_NAME_OTHER_PLAYER || IsQuizTrainerIdNotPlayer())
     {
-        return 1;
+        return QUIZ_AUTHOR_OTHER_PLAYER;
     }
     else
     {
-        return 0;
+        return QUIZ_AUTHOR_PLAYER;
     }
 }
 
-static u8 BufferAuthorName(void)
+static u8 BufferQuizAuthorName(void)
 {
-    u8 author;
+    u8 authorNameId;
     u8 nameLen;
     u8 i;
 
-    author = QUIZ_AUTHOR_PLAYER;
+    authorNameId = QUIZ_AUTHOR_NAME_PLAYER;
     sQuizLadyPtr = &gSaveBlock1Ptr->lilycoveLady.quiz;
     if (sQuizLadyPtr->playerName[0] == EOS)
     {
         StringCopy7(gStringVar1, gText_QuizLady_Lady);
-        author = QUIZ_AUTHOR_LADY;
+        authorNameId = QUIZ_AUTHOR_NAME_LADY;
     }
     else
     {
@@ -474,14 +443,14 @@ static u8 BufferAuthorName(void)
                 name = sQuizLadyPtr->playerName;
                 if (name[i] != gSaveBlock2Ptr->playerName[i])
                 {
-                    author = QUIZ_AUTHOR_OTHER_PLAYER;
+                    authorNameId = QUIZ_AUTHOR_NAME_OTHER_PLAYER;
                     break;
                 }
             }
         }
 
     }
-    return author;
+    return authorNameId;
 }
 
 static bool8 IsQuizTrainerIdNotPlayer(void)
@@ -519,7 +488,7 @@ void sub_818E274(void)
 bool8 sub_818E298(void)
 {
     sQuizLadyPtr = &gSaveBlock1Ptr->lilycoveLady.quiz;
-    if (BufferAuthorName() == QUIZ_AUTHOR_LADY)
+    if (BufferQuizAuthorName() == QUIZ_AUTHOR_NAME_LADY)
     {
         sQuizLadyPtr->language = gGameLanguage;
         return TRUE;
@@ -586,7 +555,7 @@ void sub_818E3EC(void)
     {
         sQuizLadyPtr->prevQuestionId = NUM_QUIZ_QUESTIONS;
     }
-    PickQuizQuestion();
+    QuizLadyPickQuestion();
 }
 
 void sub_818E430(void)
@@ -684,7 +653,7 @@ static void InitLilycoveContestLady(void)
     sContestLadyPtr->language = gGameLanguage;
 }
 
-static void ReadyContestLady(void)
+static void ResetContestLadyForRecordMix(void)
 {
     sContestLadyPtr = &gSaveBlock1Ptr->lilycoveLady.contest;
     sContestLadyPtr->id = LILYCOVE_LADY_CONTEST;
@@ -838,8 +807,7 @@ bool8 sub_818E8E0(void)
     return response;
 }
 
-// called when mon enjoys pokeblock
-void sub_818E914(void)
+void Script_BufferContestLadyCategoryAndMonName(void)
 {
     BufferContestLadyCategoryAndMonName(gStringVar2, gStringVar1);
 }
