@@ -217,7 +217,7 @@
 #define VAR_JAGGED_PASS_STATE                0x40C8
 #define VAR_SCOTT_PETALBURG_ENCOUNTER        0x40C9
 #define VAR_SKY_PILLAR_STATE                 0x40CA
-#define VAR_ROUTE_111_STATE                  0x40CB
+#define VAR_MIRAGE_TOWER_STATE               0x40CB
 #define VAR_FOSSIL_MANIAC_STATE              0x40CC
 #define VAR_CABLE_CLUB_TUTORIAL_STATE        0x40CD
 #define VAR_FRONTIER_BATTLE_MODE             0x40CE
