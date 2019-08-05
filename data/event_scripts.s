@@ -19,6 +19,7 @@
 #include "constants/vars.h"
 #include "constants/weather.h"
 #include "constants/trainer_hill.h"
+#include "constants/lilycove_lady.h"
 #include "constants/battle.h"
 #include "constants/metatile_labels.h"
 	.include "asm/macros.inc"
@@ -4283,9 +4284,9 @@ GraniteCave_B1F_Movement_2A8369: @ 82A8369
 LilycoveCity_PokemonCenter_1F_EventScript_2A836B:: @ 82A836B
 	special Script_GetLilycoveLadyId
 	switch VAR_RESULT
-	case 0, LilycoveCity_PokemonCenter_1F_EventScript_2A8554
-	case 1, LilycoveCity_PokemonCenter_1F_EventScript_2A8395
-	case 2, LilycoveCity_PokemonCenter_1F_EventScript_2A882A
+	case LILYCOVE_LADY_QUIZ, LilycoveCity_PokemonCenter_1F_EventScript_2A8554
+	case LILYCOVE_LADY_FAVOR, LilycoveCity_PokemonCenter_1F_EventScript_2A8395
+	case LILYCOVE_LADY_CONTEST, LilycoveCity_PokemonCenter_1F_EventScript_2A882A
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_2A8395:: @ 82A8395
@@ -4293,11 +4294,11 @@ LilycoveCity_PokemonCenter_1F_EventScript_2A8395:: @ 82A8395
 	faceplayer
 	msgbox LilycoveCity_PokemonCenter_1F_Text_2A8A69, MSGBOX_DEFAULT
 	specialvar VAR_RESULT, GetFavorLadyState
-	compare VAR_RESULT, 0
+	compare VAR_RESULT, LILYCOVE_LADY_STATE_READY
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A83D0
-	compare VAR_RESULT, 1
+	compare VAR_RESULT, LILYCOVE_LADY_STATE_COMPLETED
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A83C6
-	compare VAR_RESULT, 2
+	compare VAR_RESULT, LILYCOVE_LADY_STATE_PRIZE
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A8510
 	end
 
@@ -4307,9 +4308,9 @@ LilycoveCity_PokemonCenter_1F_EventScript_2A83C6:: @ 82A83C6
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_2A83D0:: @ 82A83D0
-	special BufferFavorLadyDescription
+	special BufferFavorLadyRequest
 	msgbox LilycoveCity_PokemonCenter_1F_Text_2A8A7D, MSGBOX_DEFAULT
-	specialvar VAR_RESULT, sub_818DC60
+	specialvar VAR_RESULT, HasAnotherPlayerGivenFavorLadyItem
 	compare VAR_RESULT, 0
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A8435
 	compare VAR_RESULT, 1
@@ -4374,7 +4375,7 @@ LilycoveCity_PokemonCenter_1F_EventScript_2A848E:: @ 82A848E
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_2A84AD:: @ 82A84AD
-	specialvar VAR_RESULT, Script_ShowFavorLadyItem
+	specialvar VAR_RESULT, Script_DoesFavorLadyLikeItem
 	compare VAR_RESULT, 0
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A84C9
 	compare VAR_RESULT, 1
@@ -4382,7 +4383,7 @@ LilycoveCity_PokemonCenter_1F_EventScript_2A84AD:: @ 82A84AD
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_2A84C9:: @ 82A84C9
-	special BufferFavorLadyDescription
+	special BufferFavorLadyRequest
 	msgbox LilycoveCity_PokemonCenter_1F_Text_2A8C0F, MSGBOX_DEFAULT
 	release
 	end
@@ -4396,13 +4397,13 @@ LilycoveCity_PokemonCenter_1F_EventScript_2A84D6:: @ 82A84D6
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_2A84F2:: @ 82A84F2
-	special BufferFavorLadyDescription
+	special BufferFavorLadyRequest
 	msgbox LilycoveCity_PokemonCenter_1F_Text_2A8C6F, MSGBOX_DEFAULT
 	release
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_2A84FF:: @ 82A84FF
-	special BufferFavorLadyDescription
+	special BufferFavorLadyRequest
 	msgbox LilycoveCity_PokemonCenter_1F_Text_2A8CC8, MSGBOX_DEFAULT
 	goto LilycoveCity_PokemonCenter_1F_EventScript_2A8510
 	end
@@ -4433,21 +4434,21 @@ LilycoveCity_PokemonCenter_1F_EventScript_2A8554:: @ 82A8554
 	faceplayer
 	msgbox LilycoveCity_PokemonCenter_1F_Text_2A8E2B, MSGBOX_DEFAULT
 	specialvar VAR_RESULT, GetQuizLadyState
-	compare VAR_RESULT, 0
+	compare VAR_RESULT, LILYCOVE_LADY_STATE_READY
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A8585
-	compare VAR_RESULT, 1
+	compare VAR_RESULT, LILYCOVE_LADY_STATE_COMPLETED
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A85AC
-	compare VAR_RESULT, 2
+	compare VAR_RESULT, LILYCOVE_LADY_STATE_PRIZE
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A86EC
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_2A8585:: @ 82A8585
 	specialvar VAR_RESULT, GetQuizAuthor
-	compare VAR_RESULT, 0
+	compare VAR_RESULT, QUIZ_AUTHOR_PLAYER
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A85C8
-	compare VAR_RESULT, 1
+	compare VAR_RESULT, QUIZ_AUTHOR_OTHER_PLAYER
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A85D2
-	compare VAR_RESULT, 2
+	compare VAR_RESULT, QUIZ_AUTHOR_LADY
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A85E0
 	end
 
@@ -4682,7 +4683,7 @@ LilycoveCity_PokemonCenter_1F_EventScript_2A886C:: @ 82A886C
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_2A8876:: @ 82A8876
-	special sub_818E914
+	special Script_BufferContestLadyCategoryAndMonName
 	msgbox LilycoveCity_PokemonCenter_1F_Text_2A93F4, MSGBOX_DEFAULT
 	checkitem ITEM_POKEBLOCK_CASE, 1
 	compare VAR_RESULT, 0
@@ -4761,7 +4762,7 @@ LilycoveCity_PokemonCenter_1F_EventScript_2A8970:: @ 82A8970
 	end
 
 LilycoveCity_PokemonCenter_1F_EventScript_2A897E:: @ 82A897E
-	special sub_818E914
+	special Script_BufferContestLadyCategoryAndMonName
 	msgbox LilycoveCity_PokemonCenter_1F_Text_2A9605, MSGBOX_DEFAULT
 	goto LilycoveCity_PokemonCenter_1F_EventScript_2A898F
 	end
@@ -4809,9 +4810,10 @@ LilycoveCity_PokemonCenter_1F_Movement_2A89C2: @ 82A89C2
 	jump_in_place_left
 	step_end
 
+@TODO, these are CONTEST_CATEGORY_ constants, move into a new constants/contest.h?
 LilycoveCity_PokemonCenter_1F_EventScript_2A89C7:: @ 82A89C7
 	specialvar VAR_RESULT, GetContestLadyCategory
-	special sub_818E914
+	special Script_BufferContestLadyCategoryAndMonName
 	special GetContestLadyMonSpecies
 	compare VAR_RESULT, 0
 	goto_if_eq LilycoveCity_PokemonCenter_1F_EventScript_2A8A0A
