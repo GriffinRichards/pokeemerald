@@ -97,7 +97,7 @@
 #define VAR_LITTLEROOT_TOWN_STATE            0x4050
 #define VAR_OLDALE_TOWN_STATE                0x4051
 #define VAR_UNUSED_0x4052                    0x4052 // Unused Var
-#define VAR_LAVARIDGE_RIVAL_STATE            0x4053 //TODO
+#define VAR_LAVARIDGE_TOWN_STATE             0x4053
 #define VAR_CURRENT_SECRET_BASE              0x4054
 #define VAR_UNUSED_0x4055                    0x4055 // Unused Var
 #define VAR_UNUSED_0x4056                    0x4056 // Unused Var
@@ -230,7 +230,7 @@
 #define VAR_ROAMER_POKEMON                   0x40D5 // 0 = Latias, 1 = Latios
 #define VAR_TRAINER_HILL_IS_ACTIVE           0x40D6
 #define VAR_SKY_PILLAR_RAQUAZA_CRY_DONE      0x40D7
-#define VAR_SOOTOPOLIS_STATE                 0x40D8 // TODO
+#define VAR_SOOTOPOLIS_WALLACE_STATE         0x40D8
 #define VAR_HAS_TALKED_TO_SEAFLOOR_CAVERN_ENTRANCE_GRUNT 0x40D9
 #define VAR_REGISTER_BIRCH_STATE             0x40DA
 #define VAR_UNUSED_0x40DB                    0x40DB // Unused Var
