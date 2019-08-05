@@ -290,7 +290,7 @@ static const u16 sQuizLadyPrizes[] =
 };
 
 // Favor Lady data
-static const u8 *const sFavorLadyDescriptions[] =
+static const u8 *const sFavorLadyRequests[] =
 {
     gText_FavorLady_Slippery,
     gText_FavorLady_Roundish,
