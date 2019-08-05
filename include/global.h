@@ -731,14 +731,6 @@ struct RecordMixingDayCareMail
     bool16 holdsItem[DAYCARE_MON_COUNT];
 };
 
-enum
-{
-    LILYCOVE_LADY_QUIZ,
-    LILYCOVE_LADY_FAVOR,
-    LILYCOVE_LADY_CONTEST,
-    LILYCOVE_LADY_COUNT
-};
-
 struct LilycoveLadyQuiz
 {
     /*0x000*/ u8 id;
