@@ -3,7 +3,7 @@
 
 u8 GetLilycoveLadyId(void);
 void InitLilycoveLady(void);
-void ReadyLilycoveLady(void);
+void ResetLilycoveLadyForRecordMix(void);
 void sub_818DEF4(void);
 void sub_818E564(void);
 void sub_818E570(const LilycoveLady *lilycoveLady);
