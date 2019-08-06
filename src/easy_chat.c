@@ -241,7 +241,7 @@ struct Unk8597530
     MainCallback callback;
 };
 
-//Lilycove lady TODO
+// Lilycove Quiz Lady
 static const struct Unk8597530 sUnknown_08597530[] = {
     {
         .word = 26,
