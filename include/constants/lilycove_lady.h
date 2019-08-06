@@ -24,10 +24,7 @@
 #define NUM_QUIZ_QUESTIONS 16     //ARRAY_COUNT(sQuizLadyQuizQuestions)
 #define FAVOR_DESCRIPTION_NUM 6   //ARRAY_COUNT(sFavorLadyDescriptions)
 
-// TODO not a great name? The number of successes required to receive 
-// an item from the favor lady. Reached automatically if the randomly
-// selected 'best' item is given to her
-#define FAVOR_GIFT_MAX 5  
+#define LILYCOVE_LADY_GIFT_THRESHOLD 5  
 
 
 #endif
