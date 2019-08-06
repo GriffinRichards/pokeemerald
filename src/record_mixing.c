@@ -704,7 +704,7 @@ static void ReceiveLilycoveLadyData(LilycoveLady *lilycoveLady, size_t recordSiz
     ResetLilycoveLadyForRecordMix();
     if (dest != NULL)
     {
-        sub_818E570(dest);
+        QuizLadyClearQuestionForRecordMix(dest);
         free(dest);
     }
 }
