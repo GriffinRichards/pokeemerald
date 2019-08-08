@@ -212,7 +212,7 @@ LinkContestRoom1_EventScript_23BAA1:: @ 823BAA1
 	return
 
 LinkContestRoom1_EventScript_23BAA7:: @ 823BAA7
-	setvar VAR_TEMP_1, EVENT_OBJ_GFX_WOMAN_1
+	setvar VAR_TEMP_1, EVENT_OBJ_GFX_FAT_MAN
 	return
 
 LinkContestRoom1_EventScript_23BAAD:: @ 823BAAD
