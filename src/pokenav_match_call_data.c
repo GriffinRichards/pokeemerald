@@ -94,11 +94,11 @@ typedef union {
     const struct MatchCallStruct5 *type5;
 } match_call_t;
 
-struct UnkStruct_08625388 {
+struct MatchCallOverride {
     u16 idx;
-    u16 v2;
-    u32 v4;
-    const u8 *v8[4];
+    u16 facilityClass;
+    u32 flag;
+    const u8 *flavorTexts[4];
 };
 
 // Static RAM declarations
@@ -806,11 +806,11 @@ static void (*const sMatchCall_GetNameAndDescFunctions[])(match_call_t, const u8
     MatchCall_GetNameAndDesc_Type3
 };
 
-static const struct UnkStruct_08625388 sMatchCallCheckPageOverrides[] = {
-    { 7, 0x4B, 0xffff, { gMatchCallStevenStrategyText, gMatchCall_StevenTrainersPokemonText, gMatchCall_StevenSelfIntroductionText_Line1_BeforeMeteorFallsBattle, gMatchCall_StevenSelfIntroductionText_Line2_BeforeMeteorFallsBattle } }, // STEVEN
-    { 7, 0x4B, FLAG_DEFEATED_MOSSDEEP_GYM, { gMatchCallStevenStrategyText, gMatchCall_StevenTrainersPokemonText, gMatchCall_StevenSelfIntroductionText_Line1_AfterMeteorFallsBattle, gMatchCall_StevenSelfIntroductionText_Line2_AfterMeteorFallsBattle } }, // STEVEN
-    { 2, 0x3c, 0xffff, { gMatchCall_BrendanStrategyText, gMatchCall_BrendanTrainersPokemonText, gMatchCall_BrendanSelfIntroductionText_Line1, gMatchCall_BrendanSelfIntroductionText_Line2 } }, // Brendan
-    { 3, 0x3f, 0xffff, { gMatchCall_MayStrategyText, gMatchCall_MayTrainersPokemonText, gMatchCall_MaySelfIntroductionText_Line1, gMatchCall_MaySelfIntroductionText_Line2 } } // May
+static const struct MatchCallOverride sMatchCallCheckPageOverrides[] = {
+    { 7, FACILITY_CLASS_STEVEN,  0xFFFF,                     { gMatchCallStevenStrategyText, gMatchCall_StevenTrainersPokemonText, gMatchCall_StevenSelfIntroductionText_Line1_BeforeMeteorFallsBattle, gMatchCall_StevenSelfIntroductionText_Line2_BeforeMeteorFallsBattle } }, // STEVEN
+    { 7, FACILITY_CLASS_STEVEN,  FLAG_DEFEATED_MOSSDEEP_GYM, { gMatchCallStevenStrategyText, gMatchCall_StevenTrainersPokemonText, gMatchCall_StevenSelfIntroductionText_Line1_AfterMeteorFallsBattle, gMatchCall_StevenSelfIntroductionText_Line2_AfterMeteorFallsBattle } }, // STEVEN
+    { 2, FACILITY_CLASS_BRENDAN, 0xFFFF,                     { gMatchCall_BrendanStrategyText, gMatchCall_BrendanTrainersPokemonText, gMatchCall_BrendanSelfIntroductionText_Line1, gMatchCall_BrendanSelfIntroductionText_Line2 } }, // Brendan
+    { 3, FACILITY_CLASS_MAY,     0xFFFF,                     { gMatchCall_MayStrategyText, gMatchCall_MayTrainersPokemonText, gMatchCall_MaySelfIntroductionText_Line1, gMatchCall_MaySelfIntroductionText_Line2 } } // May
 };
 
 // .text
@@ -1224,11 +1224,11 @@ const u8 *sub_81D1B40(u32 idx, u32 offset)
                     break;
                 if (sMatchCallCheckPageOverrides[i + 1].idx != idx)
                     break;
-                if (!FlagGet(sMatchCallCheckPageOverrides[i + 1].v4))
+                if (!FlagGet(sMatchCallCheckPageOverrides[i + 1].flag))
                     break;
                 i++;
             }
-            return sMatchCallCheckPageOverrides[i].v8[offset];
+            return sMatchCallCheckPageOverrides[i].flavorTexts[offset];
         }
     }
     return NULL;
@@ -1241,7 +1241,7 @@ int sub_81D1BD0(u32 idx)
     for (i = 0; i < ARRAY_COUNT(sMatchCallCheckPageOverrides); i++)
     {
         if (sMatchCallCheckPageOverrides[i].idx == idx)
-            return sMatchCallCheckPageOverrides[i].v2;
+            return sMatchCallCheckPageOverrides[i].facilityClass;
     }
     return -1;
 }
