@@ -143,7 +143,7 @@ u32 MatchCall_GetRematchTableIdx(u32 idx);
 u32 GetTrainerIdxByRematchIdx(u32 rematchIdx);
 int sub_81D1BD0(u32 idx);
 void MatchCall_GetMessage(u32 idx, u8 *dest);
-const u8 *sub_81D1B40(u32 idx, u32 offset);
+const u8 *MatchCall_GetOverrideFlavorText(u32 idx, u32 offset);
 void sub_81D1A78(u32 idx, const u8 **desc, const u8 **name);
 
 // pokenav_main_menu.c
