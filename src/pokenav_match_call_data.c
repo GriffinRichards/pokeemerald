@@ -1210,7 +1210,7 @@ static void MatchCall_GetNameAndDescByRematchIdx(u32 idx, const u8 **desc, const
     *name = trainer->trainerName;
 }
 
-const u8 *sub_81D1B40(u32 idx, u32 offset)
+const u8 *MatchCall_GetOverrideFlavorText(u32 idx, u32 offset)
 {
     u32 i;
 
