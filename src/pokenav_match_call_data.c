@@ -7,6 +7,7 @@
 #include "gym_leader_rematch.h"
 #include "match_call.h"
 #include "constants/region_map_sections.h"
+#include "constants/trainers.h"
 
 // Static type declarations
 
@@ -123,11 +124,11 @@ static bool32 MatchCall_IsRematchable_Type2(match_call_t);
 static bool32 MatchCall_IsRematchable_Type3(match_call_t);
 static bool32 MatchCall_IsRematchable_Type4(match_call_t);
 
-static bool32 sub_81D1840(match_call_t);
-static bool32 sub_81D1844(match_call_t);
-static bool32 sub_81D1848(match_call_t);
-static bool32 sub_81D184C(match_call_t);
-static bool32 sub_81D1850(match_call_t);
+static bool32 MatchCall_HasCheckPage_Type0(match_call_t);
+static bool32 MatchCall_HasCheckPage_Type1(match_call_t);
+static bool32 MatchCall_HasCheckPage_Type2(match_call_t);
+static bool32 MatchCall_HasCheckPage_Type3(match_call_t);
+static bool32 MatchCall_HasCheckPage_Type4(match_call_t);
 
 static u32 MatchCall_GetRematchTableIdx_Type0(match_call_t);
 static u32 MatchCall_GetRematchTableIdx_Type1(match_call_t);
@@ -774,12 +775,12 @@ static bool32 (*const sMatchCall_IsRematchableFunctions[])(match_call_t) = {
     MatchCall_IsRematchable_Type3
 };
 
-static bool32 (*const gUnknown_08625338[])(match_call_t) = {
-    sub_81D1840,
-    sub_81D1844,
-    sub_81D1848,
-    sub_81D184C,
-    sub_81D1850
+static bool32 (*const sMatchCall_HasCheckPageFunctions[])(match_call_t) = {
+    MatchCall_HasCheckPage_Type0,
+    MatchCall_HasCheckPage_Type1,
+    MatchCall_HasCheckPage_Type2,
+    MatchCall_HasCheckPage_Type4,
+    MatchCall_HasCheckPage_Type3
 };
 
 static u32 (*const sMatchCall_GetRematchTableIdxFunctions[])(match_call_t) = {
@@ -981,7 +982,7 @@ static bool32 MatchCall_IsRematchable_Type3(match_call_t matchCall)
     return FALSE;
 }
 
-bool32 sub_81D17E8(u32 idx)
+bool32 MatchCall_HasCheckPage(u32 idx)
 {
     match_call_t matchCall;
     u32 i;
@@ -990,7 +991,7 @@ bool32 sub_81D17E8(u32 idx)
         return FALSE;
     matchCall = sMatchCallHeaders[idx];
     i = MatchCallGetFunctionIndex(matchCall);
-    if (gUnknown_08625338[i](matchCall))
+    if (sMatchCall_HasCheckPageFunctions[i](matchCall))
         return TRUE;
     for (i = 0; i < ARRAY_COUNT(sMatchCallCheckPageOverrides); i++)
     {
@@ -1000,27 +1001,27 @@ bool32 sub_81D17E8(u32 idx)
     return FALSE;
 }
 
-static bool32 sub_81D1840(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_Type0(match_call_t matchCall)
 {
     return FALSE;
 }
 
-static bool32 sub_81D1844(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_Type1(match_call_t matchCall)
 {
     return TRUE;
 }
 
-static bool32 sub_81D1848(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_Type2(match_call_t matchCall)
 {
     return TRUE;
 }
 
-static bool32 sub_81D184C(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_Type4(match_call_t matchCall) 
 {
     return FALSE;
 }
 
-static bool32 sub_81D1850(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_Type3(match_call_t matchCall) 
 {
     return FALSE;
 }
@@ -1234,7 +1235,7 @@ const u8 *MatchCall_GetOverrideFlavorText(u32 idx, u32 offset)
     return NULL;
 }
 
-int sub_81D1BD0(u32 idx)
+int MatchCall_GetOverrideFacilityClass(u32 idx)
 {
     u32 i;
 
