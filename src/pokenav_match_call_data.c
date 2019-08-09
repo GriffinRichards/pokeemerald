@@ -6,6 +6,7 @@
 #include "battle.h"
 #include "gym_leader_rematch.h"
 #include "match_call.h"
+#include "pokenav.h"
 #include "constants/region_map_sections.h"
 #include "constants/trainers.h"
 
