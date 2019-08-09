@@ -358,7 +358,7 @@ const u8 *sub_81CAFD8(int index, int textType)
     {
         var0 = MatchCall_GetRematchTableIdx(state->unk1C[index].unk6);
         if (var0 == REMATCH_TABLE_ENTRIES)
-            return sub_81D1B40(state->unk1C[index].unk6, textType);
+            return MatchCall_GetOverrideFlavorText(state->unk1C[index].unk6, textType);
     }
     else
     {
