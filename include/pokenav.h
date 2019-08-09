@@ -135,13 +135,13 @@ bool32 sub_81C81D4(const struct BgTemplate *arg0, struct MatchCallListTemplate *
 void sub_81C8234(void);
 
 // pokenav_match_call_data.c
-bool32 sub_81D17E8(u32 idx);
+bool32 MatchCall_HasCheckPage(u32 idx);
 u8 MatchCallMapSecGetByIndex(u32 idx);
 bool32 sub_81D1BF8(u32 idx);
 bool32 MatchCallFlagGetByIndex(u32 idx);
 u32 MatchCall_GetRematchTableIdx(u32 idx);
 u32 GetTrainerIdxByRematchIdx(u32 rematchIdx);
-int sub_81D1BD0(u32 idx);
+int MatchCall_GetOverrideFacilityClass(u32 idx);
 void MatchCall_GetMessage(u32 idx, u8 *dest);
 const u8 *MatchCall_GetOverrideFlavorText(u32 idx, u32 offset);
 void sub_81D1A78(u32 idx, const u8 **desc, const u8 **name);
