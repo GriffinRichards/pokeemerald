@@ -212,7 +212,7 @@ static u32 sub_81CAD20(s32 taskState)
                 state->unkA++;
             }
 
-            if (++state->unk8 >= 21) // TODO: This is the size of sMatchCallHeaders
+            if (++state->unk8 >= MC_HEADER_COUNT)
             {
                 state->unkC = state->unk8;
                 state->unk8 = 0;
@@ -462,7 +462,7 @@ bool32 unref_sub_81CB16C(void)
             return TRUE;
     }
 
-    for (i = 0; i < 21; i++) // TODO: This is the size of sMatchCallHeaders
+    for (i = 0; i < MC_HEADER_COUNT; i++)
     {
         if (MatchCallFlagGetByIndex(i))
         {
