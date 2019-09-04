@@ -1190,12 +1190,12 @@ void InitPoisonGasCloudAnim(struct Sprite *sprite)
     if (GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2) < GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2))
         sprite->data[7] = 0x8000;
 
-    if (!(gBattlerPositions[gBattleAnimTarget] & 1))
+    if (!(gBattlerPositions[gBattleAnimTarget] & B_SIDE_OPPONENT))
     {
         gBattleAnimArgs[1] = -gBattleAnimArgs[1];
         gBattleAnimArgs[3] = -gBattleAnimArgs[3];
 
-        if ((sprite->data[7] & 0x8000) && !(gBattlerPositions[gBattleAnimAttacker] & 1))
+        if ((sprite->data[7] & 0x8000) && !(gBattlerPositions[gBattleAnimAttacker] & B_SIDE_OPPONENT))
             sprite->subpriority = gSprites[GetAnimBattlerSpriteId(ANIM_TARGET)].subpriority + 1;
 
         sprite->data[6] = 1;
