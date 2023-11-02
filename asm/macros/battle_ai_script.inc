@@ -222,7 +222,7 @@
 	.byte 0x24
 	.endm
 
-	.macro get_last_used_bank_move battler:req
+	.macro get_last_used_move battler:req
 	.byte 0x25
 	.byte \battler
 	.endm
@@ -572,6 +572,34 @@
 	get_type AI_TYPE2_TARGET
 	.endm
 
+	.macro if_user_has_type type:req, ptr:req
+	get_user_type1
+	if_equal \type, \ptr
+	get_user_type2
+	if_equal \type, \ptr
+	.endm
+
+	.macro if_target_has_type type:req, ptr:req
+	get_target_type1
+	if_equal \type, \ptr
+	get_target_type2
+	if_equal \type, \ptr
+	.endm
+
+	.macro if_user_has_type_in list:req, ptr:req
+	get_user_type1
+	if_in_bytes \list, \ptr
+	get_user_type2
+	if_in_bytes \list, \ptr
+	.endm
+
+	.macro if_target_has_type_in list:req, ptr:req
+	get_target_type1
+	if_in_bytes \list, \ptr
+	get_target_type2
+	if_in_bytes \list, \ptr
+	.endm
+
 	.macro if_ability battler:req, ability:req, ptr:req
 	check_ability \battler, \ability
 	if_equal 1, \ptr
@@ -616,4 +644,19 @@
 
 	.macro if_any_move_encored battler:req, ptr:req
 	if_any_move_disabled_or_encored \battler, 1, \ptr
+	.endm
+
+	.macro if_move_type type:req, ptr:req
+	get_curr_move_type
+	if_equal_ \type, \ptr
+	.endm
+
+	.macro if_has_mons_to_switch_in battler:req, ptr:req
+	count_usable_party_mons \battler
+	if_not_equal 0, \ptr
+	.endm
+
+	.macro if_has_no_mons_to_switch_in battler:req, ptr:req
+	count_usable_party_mons \battler
+	if_equal 0, \ptr
 	.endm

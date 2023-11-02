@@ -14,12 +14,11 @@
 #define AI_TYPE2_USER 3
 #define AI_TYPE_MOVE 4
 
-// type effectiveness
-#define AI_EFFECTIVENESS_x4     160
-#define AI_EFFECTIVENESS_x2     80
-#define AI_EFFECTIVENESS_x1     40
-#define AI_EFFECTIVENESS_x0_5   20
-#define AI_EFFECTIVENESS_x0_25  10
+#define AI_EFFECTIVENESS_x4     (AI_EFFECTIVENESS_x1 * 4)
+#define AI_EFFECTIVENESS_x2     (AI_EFFECTIVENESS_x1 * 2)
+#define AI_EFFECTIVENESS_x1     40 // Arbitrary damage value for AI functions that only care about determining a move's type effectiveness
+#define AI_EFFECTIVENESS_x0_5   (AI_EFFECTIVENESS_x1 / 2)
+#define AI_EFFECTIVENESS_x0_25  (AI_EFFECTIVENESS_x1 / 4)
 #define AI_EFFECTIVENESS_x0     0
 
 // ai weather

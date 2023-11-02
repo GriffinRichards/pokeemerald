@@ -87,7 +87,7 @@ static void Cmd_get_turn_count(void);
 static void Cmd_get_type(void);
 static void Cmd_get_considered_move_power(void);
 static void Cmd_get_how_powerful_move_is(void);
-static void Cmd_get_last_used_battler_move(void);
+static void Cmd_get_last_used_move(void);
 static void Cmd_if_equal_(void);
 static void Cmd_if_not_equal_(void);
 static void Cmd_if_user_goes(void);
@@ -196,7 +196,7 @@ static const BattleAICmdFunc sBattleAICmdTable[] =
     Cmd_get_type,                                   // 0x22
     Cmd_get_considered_move_power,                  // 0x23
     Cmd_get_how_powerful_move_is,                   // 0x24
-    Cmd_get_last_used_battler_move,                 // 0x25
+    Cmd_get_last_used_move,                         // 0x25
     Cmd_if_equal_,                                  // 0x26
     Cmd_if_not_equal_,                              // 0x27
     Cmd_if_user_goes,                               // 0x28
@@ -1239,7 +1239,7 @@ static void Cmd_get_how_powerful_move_is(void)
     gAIScriptPtr++;
 }
 
-static void Cmd_get_last_used_battler_move(void)
+static void Cmd_get_last_used_move(void)
 {
     if (gAIScriptPtr[1] == AI_USER)
         AI_THINKING_STRUCT->funcResult = gLastMoves[sBattler_AI];
@@ -1479,20 +1479,21 @@ static void Cmd_get_highest_type_effectiveness(void)
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
-        gBattleMoveDamage = 40;
+        gBattleMoveDamage = AI_EFFECTIVENESS_x1;
         gCurrentMove = gBattleMons[sBattler_AI].moves[i];
 
         if (gCurrentMove != MOVE_NONE)
         {
             TypeCalc(gCurrentMove, sBattler_AI, gBattlerTarget);
 
-            if (gBattleMoveDamage == 120) // Super effective STAB.
+            // Damage calculation includes damage from STAB; factor that out
+            if (gBattleMoveDamage == AI_EFFECTIVENESS_x2 * 15 / 10)
                 gBattleMoveDamage = AI_EFFECTIVENESS_x2;
-            if (gBattleMoveDamage == 240)
+            if (gBattleMoveDamage == AI_EFFECTIVENESS_x4 * 15 / 10)
                 gBattleMoveDamage = AI_EFFECTIVENESS_x4;
-            if (gBattleMoveDamage == 30) // Not very effective STAB.
+            if (gBattleMoveDamage == AI_EFFECTIVENESS_x0_5 * 15 / 10)
                 gBattleMoveDamage = AI_EFFECTIVENESS_x0_5;
-            if (gBattleMoveDamage == 15)
+            if (gBattleMoveDamage == AI_EFFECTIVENESS_x0_25 * 15 / 10)
                 gBattleMoveDamage = AI_EFFECTIVENESS_x0_25;
 
             if (gMoveResultFlags & MOVE_RESULT_DOESNT_AFFECT_FOE)
@@ -1521,13 +1522,14 @@ static void Cmd_if_type_effectiveness(void)
 
     TypeCalc(gCurrentMove, sBattler_AI, gBattlerTarget);
 
-    if (gBattleMoveDamage == 120) // Super effective STAB.
+    // Damage calculation includes damage from STAB; factor that out
+    if (gBattleMoveDamage == AI_EFFECTIVENESS_x2 * 15 / 10)
         gBattleMoveDamage = AI_EFFECTIVENESS_x2;
-    if (gBattleMoveDamage == 240)
+    if (gBattleMoveDamage == AI_EFFECTIVENESS_x4 * 15 / 10)
         gBattleMoveDamage = AI_EFFECTIVENESS_x4;
-    if (gBattleMoveDamage == 30) // Not very effective STAB.
+    if (gBattleMoveDamage == AI_EFFECTIVENESS_x0_5 * 15 / 10)
         gBattleMoveDamage = AI_EFFECTIVENESS_x0_5;
-    if (gBattleMoveDamage == 15)
+    if (gBattleMoveDamage == AI_EFFECTIVENESS_x0_25 * 15 / 10)
         gBattleMoveDamage = AI_EFFECTIVENESS_x0_25;
 
     if (gMoveResultFlags & MOVE_RESULT_DOESNT_AFFECT_FOE)
